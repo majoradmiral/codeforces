@@ -1,0 +1,6 @@
+Ball Launcher Contest
+Difficulty: 1300
+
+Given N robots in a line, each robot i has a cannon that can launch a ball to position c[i]. You want all balls to land on the same robot, minimizing the number of cannon shots required. When ball i is launched, all balls already launched continue to fall according to gravity.
+
+Solution approach: DP interval. For a range [l,r], dp[l][r] = minimum shots to make all balls in [l,r] land on the same robot. Transition: dp[l][r] = 1 + dp[l+1][r] (shoot l directly) or for each i in (l,r] with c[l]==c[i], combine [l+1,i-1] and [i+1,r]. Final answer is dp[0][N-1].
