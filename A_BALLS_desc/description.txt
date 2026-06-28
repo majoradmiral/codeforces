@@ -1,6 +1,54 @@
-Ball Launcher Contest
-Difficulty: 1300
+# A_BALLS - Bolba and his balls
 
-Given N robots in a line, each robot i has a cannon that can launch a ball to position c[i]. You want all balls to land on the same robot, minimizing the number of cannon shots required. When ball i is launched, all balls already launched continue to fall according to gravity.
+**Time limit:** 1 second per test
+**Memory limit:** 256 megabytes per test
 
-Solution approach: DP interval. For a range [l,r], dp[l][r] = minimum shots to make all balls in [l,r] land on the same robot. Transition: dp[l][r] = 1 + dp[l+1][r] (shoot l directly) or for each i in (l,r] with c[l]==c[i], combine [l+1,i-1] and [i+1,r]. Final answer is dp[0][N-1].
+## Source
+This problem is from a video on the Lincatoria YouTube channel:
+https://www.youtube.com/@Lincatoria
+
+## Problem Statement
+
+You are given an array of N balls. Each ball has some color c_i. Balls are numbered from 1 to N.
+
+In one operation, you can pick any ball and delete it. Balls on either side will come together, becoming neighbours. If these two balls have the same color, they will break! This process will continue as long as two neighbouring balls have the same color.
+
+Your task is to find the minimal number of operations to delete the entire array. Note, that only manual deletions count.
+
+## Input
+- First line: single integer N (3 ≤ N ≤ 200)
+- Second line: N integers c_i (1 ≤ c_i ≤ N)
+- Guaranteed: no two consecutive balls have the same color
+
+## Output
+Output a single number — minimal number of operations to delete the entire array.
+
+## Examples
+Input:
+7
+1 2 3 1 3 2 3
+Output: 3
+
+Input:
+6
+1 2 1 3 2 1
+Output: 2
+
+## Why I Solved It This Way
+
+This is a classic dynamic programming on intervals problem. The key insight is:
+
+1. **State**: dp[l][r] = minimum operations to delete all balls from index l to r
+
+2. **Transitions**:
+   - **Direct shot**: Remove ball l manually, then solve for [l+1, r] -> 1 + dp[l+1][r]
+   - **Chain reaction**: If c[l] == c[i] for some i in (l, r], we can:
+     - First clear everything between them: dp[l+1][i-1]
+     - Then ball l and ball i become neighbours and vanish automatically (0 cost)
+     - Then clear the remaining right part: dp[i+1][r]
+
+3. **Why this works**: The chain reaction property means balls of the same color can "cancel" each other for free once the middle is cleared. This gives O(N^3) time with O(N^2) space, which fits easily within the constraints (N ≤ 200).
+
+4. **No duplicates constraint**: The guarantee that no two consecutive balls share the same color simplifies edge cases in the DP base conditions.
+
+The algorithm builds solutions from smaller intervals up to the full array, using previously computed results to efficiently find the optimal break points.
