@@ -10,4 +10,4 @@ This repo holds work on branches. Do not push commits to main.
 New branches follow the same purpose model: name meaning, mini README, and the solution code.
 
 ## Purpose Of Repository 
-Intially to keep track of my C++ mastery journey, codeforce.com problem submissions & developing elite problem-solving skills. 
+Intially to keep track of my C++ mastery journey, Codeforces.com problem submissions & developing elite problem-solving skills. 
